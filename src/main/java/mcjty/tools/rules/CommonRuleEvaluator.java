@@ -316,7 +316,7 @@ public class CommonRuleEvaluator {
         String difficulty = map.get(DIFFICULTY).toLowerCase();
         EnumDifficulty diff = null;
         for (EnumDifficulty d : EnumDifficulty.values()) {
-            if (d.getDifficultyResourceKey().endsWith("." + difficulty)) {
+            if (d.getTranslationKey().endsWith("." + difficulty)) {
                 diff = d;
                 break;
             }
@@ -510,7 +510,7 @@ public class CommonRuleEvaluator {
             if (obj.has("mod")) {
                 String mod = obj.get("mod").getAsString();
                 BiPredicate<World, BlockPos> finalTest = test;
-                test = (world, pos) -> finalTest.test(world, pos) && mod.equals(world.getBlockState(pos).getBlock().getRegistryName().getResourceDomain());
+                test = (world, pos) -> finalTest.test(world, pos) && mod.equals(world.getBlockState(pos).getBlock().getRegistryName().getNamespace());
             }
             if (obj.has("energy")) {
                 Predicate<Integer> energy = getExpression(obj.get("energy"), logger);
@@ -820,7 +820,7 @@ public class CommonRuleEvaluator {
         if (obj.has("mod")) {
             String mod = obj.get("mod").getAsString();
             Predicate<ItemStack> finalTest = test;
-            test = s -> finalTest.test(s) && "mod".equals(s.getItem().getRegistryName().getResourceDomain());
+            test = s -> finalTest.test(s) && "mod".equals(s.getItem().getRegistryName().getNamespace());
         }
         if (obj.has("nbt")) {
             List<Predicate<NBTTagCompound>> nbtMatchers = getNbtMatchers(obj, logger);
